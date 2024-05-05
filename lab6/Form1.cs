@@ -7,51 +7,60 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace lab6
 {
     public partial class Form1 : Form
     {
         List<Emitter> emitters = new List<Emitter>();
-        Emitter emitter; // добавим поле для эмиттера
-        GravityPoint point1; // добавил поле под первую точку
-        GravityPoint point2; // добавил поле под вторую точку
+
+        Emitter emitter;
+      
+        EnterPoint ep;
+        ExitPoint exp;
+        Random rnd;
         public Form1()
         {
             InitializeComponent();
+            //picDisplay.MouseWheel += pickDisplay_MouseWheel;
             // привязал изображение
             picDisplay.Image = new Bitmap(picDisplay.Width, picDisplay.Height);
 
-            this.emitter = new Emitter // создаю эмиттер и привязываю его к полю emitter
+            emitter = new Emitter
             {
                 Direction = 0,
-                Spreading = 10,
+                Spreading = 0,
                 SpeedMin = 10,
                 SpeedMax = 10,
-                ColorFrom = Color.Gold,
-                ColorTo = Color.FromArgb(0, Color.Red),
-                ParticlesPerTick = 10,
-                X = picDisplay.Width / 2,
+                ColorFrom = Color.Brown,
+                ColorTo = Color.FromArgb(0, Color.SandyBrown),
+                ParticlesPerTick = 30,
+                X = 0,
                 Y = picDisplay.Height / 2,
+
             };
 
             emitters.Add(this.emitter); // все равно добавляю в список emitters, чтобы он рендерился и обновлялся
                                         // добавил гравитон
                                         // привязываем гравитоны к полям
-            point1 = new GravityPoint
+            exp = new ExitPoint
             {
-                X = picDisplay.Width / 2 + 100,
+                X = (float)(picDisplay.Width * 0.5),
                 Y = picDisplay.Height / 2,
-            };
-            point2 = new GravityPoint
-            {
-                X = picDisplay.Width / 2 - 100,
-                Y = picDisplay.Height / 2,
+               
             };
 
-            // привязываем поля к эмиттеру
-            emitter.impactPoints.Add(point1);
-            emitter.impactPoints.Add(point2);
+            ep = new EnterPoint
+            {
+                exitPoint = exp,
+                
+                X = (float)(picDisplay.Width * 0.25),
+                Y = picDisplay.Height / 2
+            };
+
+            emitter.impactPoints.Add(ep);
+            emitter.impactPoints.Add(exp);
 
         }
 
@@ -69,7 +78,7 @@ namespace lab6
 
             using (var g = Graphics.FromImage(picDisplay.Image))
             {
-                g.Clear(Color.Black); // А ЕЩЕ ЧЕРНЫЙ ФОН СДЕЛАЮ
+                g.Clear(Color.MistyRose); // А ЕЩЕ ЧЕРНЫЙ ФОН СДЕЛАЮ
                 emitter.Render(g);
             }
             picDisplay.Invalidate();
@@ -77,22 +86,18 @@ namespace lab6
        
         private void picDisplay_MouseMove(object sender, MouseEventArgs e)
         {
-            foreach (var emitter in emitters)
-            {
-                emitter.MousePositionX = e.X;
-                emitter.MousePositionY = e.Y;
-            }
-
-            // а тут передаем положение мыши, в положение гравитона
-            point2.X = e.X;
-            point2.Y = e.Y;
+           
+                exp.X = e.X;
+                exp.Y = e.Y;
+           
 
         }
 
         private void tbDirection_Scroll(object sender, EventArgs e)
         {
-            emitter.Direction = tbDirection.Value;
-            lblDirection.Text = $"{tbDirection.Value}°"; // добавил вывод значения
+            lblDirection.Text = $"Изменение угла на {tbDirection.Value}°";
+            ep.Angle = tbDirection.Value;
+           
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -102,7 +107,8 @@ namespace lab6
 
         private void tbGraviton_Scroll(object sender, EventArgs e)
         {
-            point2.Power = tbGraviton.Value;
+            label2.Text = $"Изменение угла разброса {tbGraviton.Value}°";
+            emitter.Spreading = tbGraviton.Value;
         }
 
         private void label3_Click(object sender, EventArgs e)
@@ -113,7 +119,9 @@ namespace lab6
         private void tbGraviton2_Scroll(object sender, EventArgs e)
         {
             
-            point1.Power = tbGraviton2.Value;
+//point1.Power = tbGraviton2.Value;
         }
+
+        
     }
 }

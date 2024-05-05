@@ -35,13 +35,10 @@
             this.lblDirection = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tbGraviton = new System.Windows.Forms.TrackBar();
-            this.tbGraviton2 = new System.Windows.Forms.TrackBar();
             this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.picDisplay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbDirection)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbGraviton)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tbGraviton2)).BeginInit();
             this.SuspendLayout();
             // 
             // picDisplay
@@ -51,8 +48,6 @@
             this.picDisplay.Size = new System.Drawing.Size(791, 414);
             this.picDisplay.TabIndex = 0;
             this.picDisplay.TabStop = false;
-            this.picDisplay.Click += new System.EventHandler(this.picDisplay_Click);
-            this.picDisplay.MouseMove += new System.Windows.Forms.MouseEventHandler(this.picDisplay_MouseMove);
             // 
             // timer1
             // 
@@ -91,20 +86,11 @@
             // tbGraviton
             // 
             this.tbGraviton.Location = new System.Drawing.Point(298, 447);
-            this.tbGraviton.Maximum = 100;
+            this.tbGraviton.Maximum = 30;
             this.tbGraviton.Name = "tbGraviton";
             this.tbGraviton.Size = new System.Drawing.Size(155, 56);
             this.tbGraviton.TabIndex = 4;
             this.tbGraviton.Scroll += new System.EventHandler(this.tbGraviton_Scroll);
-            // 
-            // tbGraviton2
-            // 
-            this.tbGraviton2.Location = new System.Drawing.Point(459, 447);
-            this.tbGraviton2.Maximum = 100;
-            this.tbGraviton2.Name = "tbGraviton2";
-            this.tbGraviton2.Size = new System.Drawing.Size(155, 56);
-            this.tbGraviton2.TabIndex = 5;
-            this.tbGraviton2.Scroll += new System.EventHandler(this.tbGraviton2_Scroll);
             // 
             // label2
             // 
@@ -115,24 +101,12 @@
             this.label2.TabIndex = 6;
             this.label2.Text = "Гравитон 1";
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(456, 420);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(79, 16);
-            this.label3.TabIndex = 7;
-            this.label3.Text = "Гравитон 2";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 496);
-            this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.tbGraviton2);
             this.Controls.Add(this.tbGraviton);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lblDirection);
@@ -144,7 +118,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.picDisplay)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbDirection)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbGraviton)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tbGraviton2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -158,9 +131,7 @@
         private System.Windows.Forms.Label lblDirection;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TrackBar tbGraviton;
-        private System.Windows.Forms.TrackBar tbGraviton2;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
     }
 }
 
