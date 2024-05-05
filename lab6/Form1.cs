@@ -17,8 +17,10 @@ namespace lab6
 
         Emitter emitter;
       
-        EnterPoint ep;
-        ExitPoint exp;
+        DogHeadPoint hP;
+        DogPopaPoint pP;
+        foodPoint fP;
+      
         Random rnd;
         public Form1()
         {
@@ -36,31 +38,42 @@ namespace lab6
                 ColorFrom = Color.Brown,
                 ColorTo = Color.FromArgb(0, Color.SandyBrown),
                 ParticlesPerTick = 30,
-                X = 0,
-                Y = picDisplay.Height / 2,
+                X = (int)(picDisplay.Width-(picDisplay.Width * 0.9)),
+                Y = (picDisplay.Height / 3)-40,
 
             };
 
             emitters.Add(this.emitter); // все равно добавляю в список emitters, чтобы он рендерился и обновлялся
                                         // добавил гравитон
                                         // привязываем гравитоны к полям
-            exp = new ExitPoint
+            pP = new DogPopaPoint
             {
-                X = (float)(picDisplay.Width * 0.5),
+                X = (float)(picDisplay.Width * 0.7),
                 Y = picDisplay.Height / 2,
-               
-            };
 
-            ep = new EnterPoint
+            };
+            fP = new foodPoint
             {
-                exitPoint = exp,
-                
-                X = (float)(picDisplay.Width * 0.25),
-                Y = picDisplay.Height / 2
+                X = (float)(picDisplay.Width * 0.1),
+                Y = picDisplay.Height / 3,
+
             };
 
-            emitter.impactPoints.Add(ep);
-            emitter.impactPoints.Add(exp);
+
+            hP = new DogHeadPoint
+            {
+                popaPoint = pP,
+                
+                X = (float)((picDisplay.Width * 0.45)),
+                Y = picDisplay.Height / 5
+            };
+
+
+            emitter.impactPoints.Add(hP);
+            emitter.impactPoints.Add(fP);
+            emitter.impactPoints.Add(pP);
+           
+
 
         }
 
@@ -87,16 +100,16 @@ namespace lab6
         private void picDisplay_MouseMove(object sender, MouseEventArgs e)
         {
            
-                exp.X = e.X;
-                exp.Y = e.Y;
+                pP.X = e.X;
+                pP.Y = e.Y;
            
 
         }
 
         private void tbDirection_Scroll(object sender, EventArgs e)
         {
-            lblDirection.Text = $"Изменение угла на {tbDirection.Value}°";
-            ep.Angle = tbDirection.Value;
+            label1.Text = $"{tbDirection.Value}°";
+            emitter.Direction = tbDirection.Value; 
            
         }
 
@@ -107,7 +120,7 @@ namespace lab6
 
         private void tbGraviton_Scroll(object sender, EventArgs e)
         {
-            label2.Text = $"Изменение угла разброса {tbGraviton.Value}°";
+            label2.Text = $"{tbGraviton.Value}°";
             emitter.Spreading = tbGraviton.Value;
         }
 
@@ -122,6 +135,38 @@ namespace lab6
 //point1.Power = tbGraviton2.Value;
         }
 
-        
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            pP.Y = picDisplay.Height / 2 - picDisplay.Height / 40 * tbDirection.Value;
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void picDisplay_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                hP.X = e.X;
+                hP.Y = e.Y;
+            }
+            if (e.Button == MouseButtons.Right)
+            {
+                pP.X = e.X;
+                pP.Y = e.Y;
+            }
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
