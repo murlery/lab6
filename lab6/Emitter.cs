@@ -10,7 +10,7 @@ namespace lab6
     public class Emitter
     {
         List<Particle> particles = new List<Particle>();
-        public List<DogHead> impactPoints = new List<DogHead>(); // <<< ТАК ВОТ
+        public List<DogParts> impactPoints = new List<DogParts>(); // <<< ТАК ВОТ
         public int MousePositionX = 0;
         public int MousePositionY = 0;
         public float GravitationX = 0;

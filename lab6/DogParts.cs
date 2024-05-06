@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace lab6
 {
-    public abstract class DogHead
+    public abstract class DogParts
     {
-        public int Power = 100;
+        public int Size = 100;
         public float X; // ну точка же, вот и две координаты
         public float Y;
 
@@ -22,31 +22,43 @@ namespace lab6
         public abstract void Render(Graphics g);
         
     }
-    public class DogHeadPoint : DogHead
+    public class DogHeadPoint : DogParts
     {
         public DogPopaPoint popaPoint;
         public int Angle = 0;
         // а сюда по сути скопировали с минимальными правками то что было в UpdateState
         public override void ImpactParticle(Particle particle)
         {
-            float gX = X - particle.X;
-            float gY = Y - particle.Y;
+            //Вычисление положения частицы относительно головы собаки
+            float rX = X - particle.X;
+            float rY = Y - particle.Y;
 
-            double r = Math.Sqrt(gX * gX + gY * gY);
-            if (r + particle.Radius < 100 / 2)
+
+            //Вычисление расстояния между частицами, спользуется формула расстояния между
+            //двумя точками в двухмерном пространстве
+            double R = Math.Sqrt(rX * rX + rY * rY);
+            
+            //положение точки в пространстве + радиус частицы меньше ли чем радиус головы собаки
+            if (R + particle.Radius < Size / 2)
             {
                 if (particle is ParticleColorful)
                 {
                     var p = (particle as ParticleColorful);
 
+                    //Создается новая матрица m и производится ее вращение на угол Angle
                     var m = new Matrix();
                     m.Rotate(Angle);
 
-                    var points = new[] { new PointF(gX, gY), new PointF(p.SpeedX, p.SpeedY) };
+                    //Преобразуем относительное положение и вектор скорости частицы с помощью матрицы
+                    var points = new[] { new PointF(rX, rY), new PointF(p.SpeedX, p.SpeedY) };
                     m.TransformPoints(points);
 
+                    //Вычисляем новые координаты положения частицы, вычитая преобразованное относительное
+                    //положение из исходного положения объекта
                     p.X = popaPoint.X - points[0].X;
                     p.Y = popaPoint.Y - points[0].Y;
+
+                    //Вычисляем новый вектор скорости частицы, присваивая преобразованный вектор скорости из матрицы
                     p.SpeedX = points[1].X;
                     p.SpeedY = points[1].Y;
                 }
@@ -56,18 +68,19 @@ namespace lab6
         public override void Render(Graphics g)
         {
             System.Drawing.Image image = Image.FromFile("D:\\учебка\\Технология программирования\\lab6\\lab6\\dogH.png");
-            // буду рисовать окружность с диаметром равным Power
+            
+            // картинка с размером
             g.DrawImage(
                    image,
-                   X - Power / 2,
-                   Y - Power / 2,
-                   Power,
-                   Power
+                   X - Size / 2,
+                   Y - Size / 2,
+                   Size,
+                   Size
                );
         }        
     }
 
-    public class DogPopaPoint : DogHead
+    public class DogPopaPoint : DogParts
     {
         
         public int Angle = 0;
@@ -78,19 +91,19 @@ namespace lab6
         public override void Render(Graphics g)
         {
             System.Drawing.Image image = Image.FromFile("D:\\учебка\\Технология программирования\\lab6\\lab6\\popa.png");
-            // буду рисовать окружность с диаметром равным Power
+            // картинка с размером
             g.DrawImage(
                    image,
-                   (X - Power / 2)-140 ,
-                   Y - Power / 2,
-                   Power*2,
-                   Power*2
+                   (X - Size / 2)-140 ,
+                   Y - Size / 2,
+                   Size*2,
+                   Size*2
                );
 
            
         }
     }
-    public class foodPoint : DogHead
+    public class foodPoint : DogParts
     {
         // а сюда по сути скопировали с минимальными правками то что было в UpdateState
         public override void ImpactParticle(Particle particle)
@@ -100,13 +113,13 @@ namespace lab6
         public override void Render(Graphics g)
         {
             System.Drawing.Image image = Image.FromFile("D:\\учебка\\Технология программирования\\lab6\\lab6\\food.png");
-            // буду рисовать окружность с диаметром равным Power
+            // картинка с размером
             g.DrawImage(
                    image,
-                   X - Power / 2,
-                   Y - Power / 2,
-                   Power,
-                   Power
+                   X - Size / 2,
+                   Y - Size / 2,
+                   Size,
+                   Size
                );
 
            
